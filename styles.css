@@ -1,87 +1,157 @@
+:root{
+    --border: 3px solid black;
+    --hoverSymbol:url(./images/black_x.png);
+    --hoverSize: 80%;
+    --activeSymbol: url(./images/white_x.png);
+    --bg-color:#ffffff;
+    --text-color: #000000;
+}
 body{
     font-family: Helvetica;
     text-align: center;
-    background-color: #f53838ec;
-    --border: 5px solid white;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-}
-.title{
-    color: #ffffffd7;;
-    padding-top: 0.3em;
-    padding-bottom: 0.8em;
-    font-size: 2.5em;
-}
-
-.info{
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    padding: 30vh 50px 0 50px;
-    text-align: center;
+    gap: 1em;
 }
-.label{
-    display: flex;
-    align-items: center;
-    justify-content:space-between;
-    padding: 0;
-    margin: 0;
-}
-.p1, .p2{
-    color: #ffffffd7;
-    font-size: 1.8em;
-    margin: 0;
-}
-h3, p{
-    margin: 0;
-}
-h3{
-    font-size: 1.2em;
-}
-p{
-    font-size: 1.1em;
-    color: #000000;
-}
-.num{
-    padding-right: 1em;
-}
-.grid-container{
-    width: 37vw;
-    height: 60vh;
+header{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    justify-self: center;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    margin-top: 40px;
+}
+header img{
+    width: 60px;
+    padding: 25px;
+}
+.title, .p1, .p2{
+    font-size: 27px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.title h1{
+    margin: 0;
+}
+.title h2{
+    padding: 5px 25px;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-weight: 500;
+}
+.title h2:hover{
+    background-color: black;
+    color: white;
+}
+.score{
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+}
+.p1 h2, .p2 h2{
+    margin: 0;
 }
 
-.c1{
-    border-right:var(--border);
+main{
+    padding-bottom: 30px;
+}
+.grid-container{
+    width: 540px;
+    height: 540px;
+    margin-top: 50px;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    justify-self: center;
+    align-self: center;
+}
+
+#a0, #b0, #c0{
+    border-right: var(--border)
+}
+#a0,#a1, #a2, #b0, #b1, #b2{
     border-bottom: var(--border);
 }
-.m1{
-    border-bottom: var(--border);
-}
-.c2{
-    border-left:var(--border);
-    border-bottom: var(--border);
-}
-.m2{
-    border-right: var(--border);
-}
-.c3{
-    border-right:var(--border);
-    border-top: var(--border);
-}
-.m3{
-    border-left: var(--border)
-}
-.c4{
-    border-left:var(--border);
-    border-top: var(--border);
-}
-.m4{
-    border-top: var(--border);
+ #a2, #b2, #c2{
+    border-left:var(--border)
 }
 .square:hover{
-    background-color: rgb(255, 255, 255);
+    background: var(--hoverSymbol);
+    background-size: var(--hoverSize);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+.square:active{
+    background: var(--activeSymbol), black;
+    background-size: var(--hoverSize);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mobile-score{
+    display: none;
+}
+@media (min-width: 2000px) {/* fix p1 and p2 margin*/
+    body{
+        gap: 0;
+    }
+    header{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    h1{
+        font-size: 3em;
+    }
+    h2{
+        font-size: 2em;
+    }
+    .grid-container{
+        width: 35vw;
+        height: 35vw;
+    }
+}
+@media (max-width: 700px){
+    .grid-container{
+        max-width: 80vw;
+        height: 90vw;
+    }
+    header{
+        grid-template-columns: 1fr 1fr;
+        row-gap: 30px;
+    }
+    header img{
+        width: 50px;
+        padding: 10px
+    }
+    .p1, .p2{
+        grid-row: 2 / 3;
+    }
+    .name{
+        font-size: 1.1em;
+    }
+    .title{
+        grid-column: 1 / 3;
+    }
+    .title h1{
+        font-size: 1.7em;
+    }
+    .score h2{
+        display: none;
+    }
+
+    .mobile-score{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .mobile-score h2{
+        padding: 5px 25px;
+        border: 2px solid black;
+        border-radius: 10px;
+        font-weight: 500;
+        margin: 0;
+    }
+    .mobile-score h2:hover{
+        background-color: black;
+        color: white;
+    }
+
 }

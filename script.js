@@ -30,7 +30,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     let usedSquares = 0;
     let roundStatus = "ongoing";
     const tripleVerification = [false,false,false];
-    const switchPlayerTurn = () => activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    const switchPlayerTurn = () => activePlayer = activePlayer == players[0] ? players[1] : players[0];
     const getActivePlayer = () => activePlayer;
     const restartBoard = () =>{
         for (let i = 0; i < 3; i++) {
@@ -42,7 +42,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         roundStatus = "ongoing";
     }
     const alertTie = ()=>{
-        if (usedSquares === 9 && roundStatus === "ongoing"){
+        if (usedSquares === 9 && roundStatus == "ongoing"){
             return "tie"
         }
     }
@@ -51,7 +51,6 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             console.log(activePlayer.name + " won!", board.getBoard());
             activePlayer.score++;
             roundStatus = "won";
-            return true;
         } else if(alertTie() == "tie"){
             roundStatus = "tie";
             console.log("It's a tie!", board.getBoard());
@@ -59,7 +58,6 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             tripleVerification[0] = false;
             tripleVerification[1] = false;
             tripleVerification[2] = false;
-            return false;
         } 
     }
     const winningPositions = (func, arr, player, num)=>{
@@ -77,8 +75,8 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             }
         }
     } 
-    const individualVerification = (arr, activePlayer, loopIteration, arrIteration)=>{
-        arr[loopIteration][arrIteration] == activePlayer.token ? tripleVerification[loopIteration] = true: tripleVerification[loopIteration] = false;
+    const individualVerification = (arr, activePlayer, loopIteration, arrIteration)=>{//REDO CHECKING LOGIC
+        arr[loopIteration][arrIteration] == activePlayer.token ? tripleVerification[loopIteration] = true : tripleVerification[loopIteration] = false;
     }
     const checkWinners = (activePlayer) =>{
         for(let i = 0; i < 5; i++){
@@ -98,17 +96,58 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         usedSquares++;
         checkWinners(getActivePlayer());
         checkScores(getActivePlayer());
+        console.log(board.getBoard());
         switchPlayerTurn();
         if(roundStatus == "won" || roundStatus =="tie"){
             restartBoard();
         } 
     }
-
-    return {getActivePlayer, playRound, board};
+    return {getActivePlayer, playRound, players, board};
 }
 
 const playGame = GameController(); //NEED NEWGAME FUNCTION
 
+const gridContainer = document.querySelector(".grid-container");
+
+gridContainer.addEventListener("click", (e)=>{
+    let coordinates = e.target.className.slice(7);
+    let row = +coordinates.slice(3);
+    let column = +coordinates.slice(1, 2);
+    displaySquares(e.target, playGame.getActivePlayer().token);
+    playGame.playRound(row,column);
+    printScore(playGame.players[0], playGame.players[1]);
+});
+
+const displaySquares = (square, player)=>{//need to prevent from reassigning a symbol
+    const cssRoot = document.querySelector(":root");
+    if (player == 1){
+        square.style.background = "url(./images/black_x.png) no-repeat center";
+        square.style.backgroundSize = "80%";
+        cssRoot.style.setProperty("--hoverSymbol", "url(./images/black_circle.png)");
+        cssRoot.style.setProperty("--hoverSize", "70%");
+        cssRoot.style.setProperty("--activeSymbol", "url(./images/white_circle.png)");
+
+    } else if (player == 2){
+        square.style.background = "url(./images/black_circle.png) no-repeat center";
+        square.style.backgroundSize = "70%";
+        cssRoot.style.setProperty("--hoverSymbol", "url(./images/black_x.png)");
+        cssRoot.style.setProperty("--hoverSize", "80%");
+        cssRoot.style.setProperty("--activeSymbol", "url(./images/white_x.png)");
+    }
+}
+const printScore = (p1, p2)=>{
+    const scoreP1 = document.querySelector(".score1");
+    const scoreP2 = document.querySelector(".score2");
+    scoreP1.textContent = p1.score;
+    scoreP2.textContent = p2.score;
+}
+const cleanBoard = ()=>{
+    const squares = Array.from(document.querySelectorAll(".square"));
+    for (cell of squares){
+        cell.style.setProperty("background", "");
+        cell.style.setProperty("background-size", "");
+    }
+}
 
 
 
