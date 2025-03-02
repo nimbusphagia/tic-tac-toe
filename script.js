@@ -180,12 +180,26 @@ function Display(){
             })
         } 
     }
-    return {move, score, roundDialog}
+    return {move, score, roundDialog, name}
 }
 function MacroPlay(){
     const playGame = GameEngine();
     const displayGame = Display();
-    
+    const changeName = ()=>{
+        const name1 = document.querySelector(".name1");
+        const name2 = document.querySelector(".name2")
+        name1.addEventListener("click", ()=>{
+            const prompt1 = window.prompt("Name Player1:", "Player1");
+            name1.textContent =  prompt1 ? prompt1 : "Player 1";
+            playGame.gameboard.players[0].name = name1.textContent;
+        })
+        name2.addEventListener("click", ()=>{
+            const prompt2 = window.prompt("Name Player2:", "Player2");
+            name2.textContent = prompt2 ? prompt2 : "Player 2";
+            playGame.gameboard.players[1].name = name2.textContent;
+        })
+    }
+    changeName();
     const round = (row, col, squareDOM)=>{
         playGame.gameboard.makeMove(playGame.getActivePlayer().token, row, col);
         displayGame.move(squareDOM, playGame.getActivePlayer().token);
@@ -194,6 +208,7 @@ function MacroPlay(){
         console.log(playGame.gameboard.players);
         playGame.switchPlayer();
     }
+    
     document.querySelector(".grid-container").addEventListener("click", (e)=>{
         let square = e.target.id;
         let row = ""; 
