@@ -55,6 +55,7 @@ header img{
 
 main{
     padding-bottom: 30px;
+    margin: auto;
 }
 .grid-container{
     width: 540px;
@@ -91,7 +92,37 @@ main{
 .mobile-score{
     display: none;
 }
-@media (min-width: 2000px) {/* fix p1 and p2 margin*/
+dialog{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 150px;
+    border: none;
+    backdrop-filter: blur(5px);
+    background-color: #64abeea9;
+    color: white;
+    padding: 40px;
+}
+dialog button{
+    font-size: 1em;
+    background-color: #1e96d6f0;
+    color: white;
+    border-radius: 5px;
+    border: 1.5px solid #104c6c;
+    padding: 5px 25px;
+    margin-top: 15px;
+}
+dialog button:hover{
+    box-shadow: 2px 2px 2px 0 #35353548;
+}
+dialog button:active{
+    background-color: #2f81ad;
+    box-shadow: none;
+}
+@media (min-width: 2000px) {
     body{
         gap: 0;
     }
